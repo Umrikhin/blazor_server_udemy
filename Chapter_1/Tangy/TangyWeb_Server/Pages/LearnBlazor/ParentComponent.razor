@@ -1,0 +1,49 @@
+﻿@page "/learnBlazor/parentComponent"
+
+<h3>Взаимодействие родительского и дочернего компонентов</h3>
+
+<CascadingValue Value="@MessageForGrandChild" Name="message">
+    <CascadingValue Value="@LukyNumber" Name="lukyNumber">
+        <_ChildComponent @ref="childComp" OnButtonClick="ShowMessage" Title="Этот заголовок передается как параметр из родительского компонента">
+            <ChildContent>ВаУУУ! Тут отрисовывается контент из родительского компонента</ChildContent>
+            <DangerChildContent>Контент типа Опасность из отрисовщика фрагментов RenderFragment! ВаУУУ!</DangerChildContent>
+        </_ChildComponent>
+    </CascadingValue>
+</CascadingValue>
+<p><b>@messageText</b></p>
+
+<_AnotherChildComponent placeholder="Заполнитель из родителя"></_AnotherChildComponent>
+
+<div class="row">
+    <button class="btn btn-success" @onclick="ShowToast">Показать Toastr</button>
+</div>
+
+@*<_ChildComponent Title="Этот второй дочерний компонент">
+    
+</_ChildComponent>*@
+
+@code {
+    private _ChildComponent? childComp;
+
+    private void ShowToast()
+    {
+        childComp?.ToastrSuccess();
+    }
+
+    public string MessageForGrandChild = "Это сообщение от родительского компонента (ParentComponent)";
+    public string LukyNumber = "7";
+
+    public string messageText { get; set; } = string.Empty;
+
+    //public Dictionary<string, object> InputAttributesFromParent { get; set; } = new Dictionary<string, object>()
+    //{
+    //    {"required","required"},
+    //    {"placeholder", "Внесите Имя Из Родителя"},
+    //    {"maxlength", 5}
+    //};
+
+    private void ShowMessage()
+    {
+        messageText = "Кнопка Tangy нажата из дочернего компонента";
+    }
+}

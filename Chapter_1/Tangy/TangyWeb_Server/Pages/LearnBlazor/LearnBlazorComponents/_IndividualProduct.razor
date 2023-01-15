@@ -1,0 +1,47 @@
+﻿<div class="col-5 border p-3 bg-light me-2 mt-2 mb-2" @onclick="(args)=>LastSelectedProduct(args, row.Name)">
+    <h3 class="text-secondary">Продукт - @row.Id</h3>
+    <input type="checkbox" @onchange="FavouriveUpdated" /> Добавить в избранное<br /><br />
+    Имя: @row.Name<br />
+    ФР из родителя - #@StringFirst #@StringSecond
+    <div>
+        Показать свойства
+        <input type="checkbox" @bind-value="@row.IsActive" checked="@(row.IsActive ? "checked" : null)" />
+    </div>
+    @if (row.IsActive)
+    {
+        @foreach (var item in row.ProductProperties)
+        {
+            <p>@item.Key - @item.Value</p>
+        }
+    }
+    <_EditDeleteButton IsActive="@row.IsActive">
+
+    </_EditDeleteButton>
+</div>
+
+@code {
+    [Parameter]
+    public Demo_Product row { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback<bool> OnFavouriteUpdated { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnLastSelectedProductChange { get; set; }
+
+    private async Task FavouriveUpdated(ChangeEventArgs e)
+    {
+        if (e.Value != null) await OnFavouriteUpdated.InvokeAsync((bool)e.Value);
+    }
+
+    private async Task LastSelectedProduct(MouseEventArgs e, string name)
+    {
+        await OnLastSelectedProductChange.InvokeAsync(name);
+    }
+
+    [Parameter]
+    public RenderFragment StringFirst { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment StringSecond { get; set; } = null!;
+}

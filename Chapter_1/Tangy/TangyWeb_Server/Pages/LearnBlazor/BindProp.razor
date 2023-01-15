@@ -1,0 +1,113 @@
+﻿@page "/learnblazor/bindprop"
+<h2 class="text-success">Отдельный продукт</h2>
+<div class="row">
+    <div class="col-6 border p-3">
+        <h3 class="text-primary">Продукт выбор свойств</h3><hr />
+        <div>
+            Активно
+            <input type="checkbox" @bind-value="@Product.IsActive" checked="@(Product.IsActive ? "checked" : null)" /><br />
+            @*<input type="checkbox" @bind="@Product.IsActive" />*@
+        </div>
+        <div>
+            Цена:
+            @*<input type="number" step="0.01" value="@Product.Price.ToString("#.00", System.Globalization.CultureInfo.InvariantCulture)" />*@
+            <input type="number" step="0.01" @bind-value="@Product.Price" @bind-value:event="oninput" /><br />
+            @*<input type="number" step="0.01" @bind="@Product.Price" @bind:event="oninput" />*@
+        </div>
+        <div>
+            Свойства продукта
+            <select @bind="selectedProp">
+                @foreach (var prop in Product.ProductProperties)
+                {
+                    <option value="@prop.Key">@prop.Key</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-6 border p-3">
+        <h3 class="text-primary">Продукт сводка</h3><hr />
+        Имя: @Product.Name<br />
+        Активно: @Product.IsActive<br />
+        Цена: @Product.Price<br />
+        Этот продукт: @(Product.IsActive ? "Активен" : "Неактивен")<br />
+        Выбранное свойство: @selectedProp<br />
+        @if (!string.IsNullOrEmpty(selectedProp))
+        {
+            <p>Значение свойства: @Product.ProductProperties.FirstOrDefault(x => x.Key.Equals(selectedProp))?.Value</p>
+        }
+    </div>
+</div>
+<br />
+<h2 class="text-success">Таблица продуктов</h2>
+<table class="table table-striped table-bordered">
+    <tbody>
+        @foreach (var row in Products)
+        {
+            <tr>
+                <td><input type="text" step="0.01" @bind-value="@row.Name" @bind-value:event="oninput" /></td>
+                <td><input type="number" step="0.01" @bind-value="@row.Price" @bind-value:event="oninput" /></td>
+                <td><input type="checkbox" @bind-value="@row.IsActive" checked="@(row.IsActive ? "checked" : null)" /></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h2>Суммарно по продуктам</h2>
+<table>
+    @foreach (var row in Products)
+    {
+        <tr>
+            <td>@row.Name [@row.Price] является @(row.IsActive ? "Активен" : "Неактивен")</td>
+        </tr>
+    }
+</table>
+
+@code {
+    private string selectedProp = string.Empty;
+
+    Demo_Product Product = new Demo_Product()
+        {
+            Id = 1,
+            Name = "Розовая свеча",
+            Price = 10.99,
+            IsActive = true,
+            ProductProperties = new List<Demo_ProductProp>()
+            {
+                new Demo_ProductProp() { Id = 1, Key="Цвет", Value="Черный"},
+                new Demo_ProductProp() { Id = 2, Key="Аромат", Value="Розовый Жасмин"},
+                new Demo_ProductProp() { Id = 3, Key="Размер", Value="20 унций"}
+            }
+        };
+
+    List<Demo_Product> Products = new();
+    protected override void OnInitialized()
+    {
+        Products.Add(new()
+            {
+                Id = 1,
+                Name = "Полночное Пламя",
+                Price = 15.25,
+                IsActive = false,
+                ProductProperties = new List<Demo_ProductProp>()
+            {
+                new Demo_ProductProp() { Id = 1, Key="Аромат", Value="Роза"},
+                new Demo_ProductProp() { Id = 2, Key="Размер", Value="20 унций"},
+                new Demo_ProductProp() { Id = 3, Key="Цвет", Value="Пурпурный"}
+            }
+            });
+
+        Products.Add(new()
+            {
+                Id = 2,
+                Name = "Цветущая Лилия",
+                Price = 56.29,
+                IsActive = true,
+                ProductProperties = new List<Demo_ProductProp>()
+            {
+                new Demo_ProductProp() { Id = 1, Key="Аромат", Value="Лилия"},
+                new Demo_ProductProp() { Id = 2, Key="Размер", Value="18 унций"},
+                new Demo_ProductProp() { Id = 3, Key="Цвет", Value="Белый"}
+            }
+            });
+    }
+}
