@@ -1,0 +1,13 @@
+﻿<div>
+    <h4 class="text-primary pt-3">Внучатый дочерний компонент</h4>
+    <p>Это сообщение - @MessageForGrandChild</p>
+    <p>Счастливый номер - @LukyNumberForGrandChild</p>
+</div>
+
+@code {
+    [CascadingParameter(Name ="message")]
+    public string MessageForGrandChild { get; set; } = null!;
+
+    [CascadingParameter(Name = "lukyNumber")]
+    public string LukyNumberForGrandChild { get; set; } = null!;
+}
