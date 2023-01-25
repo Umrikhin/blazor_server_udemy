@@ -74,10 +74,8 @@ namespace Tangy_Business.Repository
 
         public async Task<IEnumerable<CategoryDTO>> GetAll()
         {
-            return await Task.Run(GetAllCat);
+            return _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryDTO>>(_db.Categories);
         }
-
-        IEnumerable<CategoryDTO> GetAllCat() => _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryDTO>>(_db.Categories);
 
         public async Task<CategoryDTO> Update(CategoryDTO objDTO)
         {
