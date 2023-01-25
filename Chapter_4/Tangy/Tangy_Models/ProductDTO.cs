@@ -21,6 +21,6 @@ namespace Tangy_Models
         public string ImageUrl { get; set; } = string.Empty;
         [Range(1, int.MaxValue, ErrorMessage ="Пожалуйста, выберете категорию")]
         public int CategoryId { get; set; }
-        public CategoryDTO Category { get; set; } = new();
+        public CategoryDTO Category { get; set; }
     }
 }

@@ -20,6 +20,6 @@ namespace Tandy_DataAccess
         public string ImageUrl { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
-        public Category Category { get; set; } = new();
+        public Category Category { get; set; }
     }
 }
