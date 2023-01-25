@@ -81,7 +81,7 @@ namespace Tangy_Business.Repository
 
         public async Task<CategoryDTO> Update(CategoryDTO objDTO)
         {
-            var objFromDb = _db.Categories.FirstOrDefault(x => x.Id == objDTO.Id);
+            var objFromDb = await _db.Categories.FirstOrDefaultAsync(x => x.Id == objDTO.Id);
             if (objFromDb != null)
             {
                 objFromDb.Name = objDTO.Name;
