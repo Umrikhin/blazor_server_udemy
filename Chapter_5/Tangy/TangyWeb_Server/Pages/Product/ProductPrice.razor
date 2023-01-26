@@ -95,7 +95,7 @@ else
             {
                 await _productPriceRepository.Create(args.Data);
                 ProductPrices = await _productPriceRepository.GetAll(Id);
-                ProductPriceGrid.Refresh();
+                await ProductPriceGrid.Refresh();
             }
             if (args.Action == "Edit")
             {
@@ -105,7 +105,7 @@ else
         if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Delete))
         {
             await _productPriceRepository.Delete(args.Data.Id);
-            ProductPriceGrid.Refresh();
+            await ProductPriceGrid.Refresh();
         }
     }
 }
