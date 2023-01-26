@@ -1,0 +1,18 @@
+﻿<div>
+    <h4 class="text-primary pt-3">Другой дочерний компонент</h4>
+    <input id="nametemp" @attributes="InputAttributes" placeholder="Заполнитель из дочернего компонента" />
+</div>
+
+@code {
+    //[Parameter]
+    //public string Placeholder { get; set; } = "Текст по умолчанию";
+
+    //[Parameter]
+    //public string Required { get; set; } = "required";
+
+    //[Parameter]
+    //public string MaxLength { get; set; } = "10";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> InputAttributes { get; set; } = new Dictionary<string, object>();
+}
