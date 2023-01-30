@@ -54,14 +54,14 @@ namespace Tangy_Business.Repository
 
         public async Task<IEnumerable<ProductPriceDTO>> GetAll(int? id=null)
         {
-            await Task.Delay(1000); //Этого нет у переводчика
+            //await Task.Delay(1000); //Этого нет у переводчика
             if (id != null && id > 0)
             {
-                return _mapper.Map<IEnumerable<ProductPrice>, IEnumerable<ProductPriceDTO>>(_db.ProductPrices.Where(x => x.ProductId == id));
+                return _mapper.Map<IEnumerable<ProductPrice>, IEnumerable<ProductPriceDTO>>(await _db.ProductPrices.Where(x => x.ProductId == id).ToListAsync());
             }
             else
             {
-                return _mapper.Map<IEnumerable<ProductPrice>, IEnumerable<ProductPriceDTO>>(_db.ProductPrices);
+                return _mapper.Map<IEnumerable<ProductPrice>, IEnumerable<ProductPriceDTO>>(await _db.ProductPrices.ToListAsync());
             }
             
         }
